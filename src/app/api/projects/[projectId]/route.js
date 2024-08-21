@@ -137,10 +137,22 @@ export async function POST(req,context) {
       },{
         new:true
       })
+
+      const result={
+        _id:todo._id,
+        task:todo.task,
+        iscompleted:todo.iscompleted,
+        description:todo.description,
+        priority:todo.priority,
+        deadline:todo.deadline,
+        project:todo.project,
+        projectname:project.name
+
+      }
       return NextResponse.json(
           new ApiResponse(
               200,
-              {todo},
+              {todo:result},
               "todo is successfully added to the project"
             )
       );

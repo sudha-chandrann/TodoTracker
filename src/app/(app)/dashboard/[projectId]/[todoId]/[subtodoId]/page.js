@@ -12,6 +12,7 @@ import { Menu } from "@headlessui/react";
 import { FaFlag } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
 import Subtodocomment from '@/Components/subtodoCommentItem';
+import {IoChevronBackOutline} from "react-icons/io"
 
 const itim = Itim({
   weight: ['400'], 
@@ -364,6 +365,11 @@ const handlefunction=()=>{
                 <MdOutlineDelete className='text-2xl text-black/50 hover:text-black' onClick={()=>{ setisdeleting(true)}} title='Delete this Subtodo'/>
             
            </div >
+           <div className='absolute top-2 left-4'>     
+      
+      <IoChevronBackOutline className='text-2xl text-black/50 hover:text-black'  onClick={()=>{router.back()}}/>
+                  
+      </div>
            <div className='w-full flex justify-between items-center'>
                   <div className='text-2xl'>Todo: {subtodotodoname}</div>
                   <div className='text-black/50 text-xl'>Deadline: {subtododeadline}</div>

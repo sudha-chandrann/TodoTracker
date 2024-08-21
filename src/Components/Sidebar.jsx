@@ -71,10 +71,10 @@ function Sidebar() {
           <div className="ml-2 font-semibold">Inbox</div>
         </Link>
         <Link
-          href="/dashboard"
+          href="/dashboard/today"
           className={
             isActive("/dashboard/today")
-              ? "flex text-customRed px-7 py-2 items-center bg-gray-50"
+              ? "flex text-customRed px-7 py-2 items-center bg-cyan-200"
               : "py-2 hover:bg-slate-300 flex px-7 text-black/50 hover:text-black"
           }
         >
@@ -128,7 +128,7 @@ function Sidebar() {
               key={project._id}
               className={
                 isActive(`/dashboard/${project._id}`)
-                  ? "flex px-7 py-1 text-black bg-gray-50 text-2xl gap-2 items-center  cursor-pointer"
+                  ? "flex px-7 py-1 text-black bg-cyan-200 text-2xl gap-2 items-center  cursor-pointer"
                   : "flex px-7 py-1 text-black/50 hover:text-black hover:bg-slate-300 text-2xl gap-2 items-center  cursor-pointer"
               }
               onClick={() => router.push(`/dashboard/${project._id}`)}
