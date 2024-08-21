@@ -27,7 +27,6 @@ function Sidebar() {
     try {
       const response = await axios.get("/api/users/currentuser");
       if (response.data.success) {
-        // console.log(response.data.data.user)
         dispatch(login(response.data.data.user));
       }
     } catch (error) {
@@ -82,7 +81,7 @@ function Sidebar() {
           <div className="ml-2 font-semibold">Today</div>
         </Link>
         <Link
-          href="/dashboard/filters"
+          href="/dashboard/upcoming"
           className={
             isActive("/dashboard/upcoming")
               ? "flex text-customRed px-7 py-2 items-center bg-cyan-200"

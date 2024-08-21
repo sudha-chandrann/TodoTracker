@@ -9,7 +9,7 @@ const itim = Itim({
   weight: ['400'], 
   subsets: ['latin'],     
 });
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 import Timer from '@/Components/Timer';
 import axios from 'axios';
 import TodayTodoItem from '@/Components/Todattodoitem';
