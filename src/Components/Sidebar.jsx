@@ -7,6 +7,7 @@ import { IoCalendar } from "react-icons/io5";
 import { TbFilters } from "react-icons/tb";
 import { GoPlus } from "react-icons/go";
 import { FaAngleDown } from "react-icons/fa6";
+import { FaAngleRight } from "react-icons/fa6";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import axios from "axios";
@@ -19,10 +20,15 @@ function Sidebar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const isActive = (name) =>
-    pathname.startsWith(name) && pathname.endsWith(name);
+  const isActive = (name) => pathname.startsWith(name) && pathname.endsWith(name);
   const username = useSelector((state) => state.user.username);
   const projects = useSelector((state) => state.user.projects);
+  
+  const [ismyprojectsvisible,setprojectvisible]=useState(true);
+  const [ismyteamvisible,setmyteamvisible]=useState(true);
+
+
+
   const getuser = async () => {
     try {
       const response = await axios.get("/api/users/currentuser");
@@ -118,27 +124,88 @@ function Sidebar() {
                 router.push("/dashboard/Addproject");
               }}
             />
-            <FaAngleDown className="text-xl text-black/75 hover:text-black" />
+            {
+              ismyprojectsvisible&&(<FaAngleDown className="text-xl text-black/75 hover:text-black" onClick={()=>{ setprojectvisible(false)}}/>)
+            }
+             {
+              !ismyprojectsvisible&&(<FaAngleRight className="text-xl text-black/75 hover:text-black" onClick={()=>{ setprojectvisible(true)}}/>)
+            }
+            
+            
           </div>
         </div>
-        <nav className="">
-          {projects?.map((project) => (
-            <div
-              key={project._id}
-              className={
-                isActive(`/dashboard/${project._id}`)
-                  ? "flex px-7 py-1 text-black bg-cyan-200 text-2xl gap-2 items-center  cursor-pointer"
-                  : "flex px-7 py-1 text-black/50 hover:text-black hover:bg-slate-300 text-2xl gap-2 items-center  cursor-pointer"
-              }
-              onClick={() => router.push(`/dashboard/${project._id}`)}
-            >
-              #{" "}
-              <span className="text-lg whitespace-nowrap overflow-x-hidden">
-                {project.name}
-              </span>
+        {
+          ismyprojectsvisible&&(
+            <nav className="">
+            {projects?.map((project) => (
+              <div
+                key={project._id}
+                className={
+                  isActive(`/dashboard/${project._id}`)
+                    ? "flex px-7 py-1 text-black bg-cyan-200 text-2xl gap-2 items-center  cursor-pointer"
+                    : "flex px-7 py-1 text-black/50 hover:text-black hover:bg-slate-300 text-2xl gap-2 items-center  cursor-pointer"
+                }
+                onClick={() => router.push(`/dashboard/${project._id}`)}
+              >
+                #{" "}
+                <span className="text-lg whitespace-nowrap overflow-x-hidden">
+                  {project.name}
+                </span>
+              </div>
+            ))}
+          </nav>
+          )
+        }
+       
+      </div>
+      <div className="py-3">
+        <div className="flex pb-2 items-center px-6 justify-between">
+          <div className="flex items-center">
+            <Avatar name={username} height={5} width={5} />
+            <div className="ml-3 text-lg font-semibold text-black/70">
+              My Teams
             </div>
-          ))}
-        </nav>
+          </div>
+          <div className="flex items-center gap-3">
+            <GoPlus
+              className="text-2xl text-customRed hover:text-black"
+              onClick={() => {
+                router.push("/dashboard/Addteam");
+              }}
+            />
+            {
+              ismyteamvisible&&(<FaAngleDown className="text-xl text-black/75 hover:text-black" onClick={()=>{ setmyteamvisible(false)}}/>)
+            }
+             {
+              !ismyteamvisible&&(<FaAngleRight className="text-xl text-black/75 hover:text-black" onClick={()=>{ setmyteamvisible(true)}}/>)
+            }
+            
+            
+          </div>
+        </div>
+        {/* {
+          ismyteamvisible&&(
+            <nav className="">
+            {projects?.map((project) => (
+              <div
+                key={project._id}
+                className={
+                  isActive(`/dashboard/${project._id}`)
+                    ? "flex px-7 py-1 text-black bg-cyan-200 text-2xl gap-2 items-center  cursor-pointer"
+                    : "flex px-7 py-1 text-black/50 hover:text-black hover:bg-slate-300 text-2xl gap-2 items-center  cursor-pointer"
+                }
+                onClick={() => router.push(`/dashboard/${project._id}`)}
+              >
+                #{" "}
+                <span className="text-lg whitespace-nowrap overflow-x-hidden">
+                  {project.name}
+                </span>
+              </div>
+            ))}
+          </nav>
+          )
+        } */}
+       
       </div>
     </div>
   );

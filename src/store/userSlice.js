@@ -6,7 +6,6 @@ const initialState = {
   email: null,
   projects: [],
   inbox:'',
-  teams:[],
   _id:null
 };
 
@@ -14,16 +13,13 @@ const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action) => {
-    
+    login: (state, action) => {  
       state.status = true;
       state._id=action.payload._id;
       state.username = action.payload.username;
       state.email = action.payload.email;
       state.projects = action.payload.projects;
-      state.teams=action.payload.teams;
       state.inbox=action.payload.inbox;
-
     },
     logout: (state) => {
       state.status = false;
