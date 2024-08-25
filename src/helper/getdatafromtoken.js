@@ -9,6 +9,6 @@ export const getDataFromToken=(request)=>{
             return decoded._id;
     }
     catch(error){
-        console.log("the getdata error oid ",error.message||error);
+        console.log("the getdata error is ",error.message||error);
     }
 }

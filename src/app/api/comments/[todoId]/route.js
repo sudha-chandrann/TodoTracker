@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbconnect";
 import {ApiResponse} from "@/helper/Apiresponse"
 import {getDataFromToken} from "@/helper/getdatafromtoken"
-import mongoose from "mongoose";
 import { Todo } from "@/models/todo.model";
 import {Comment} from "@/models/comment.model"
 import { Client } from "@/models/user.model";

@@ -15,11 +15,7 @@ async function dbConnect() {
     console.log('Connecting to the database...');
 
     // Use `await mongoose.connect()` directly with the appropriate options
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 10000, // 10 seconds
-    });
+    await mongoose.connect(process.env.MONGODB_URI);
 
     // Set the connection state
     connection.isConnected = mongoose.connection.readyState === 1;

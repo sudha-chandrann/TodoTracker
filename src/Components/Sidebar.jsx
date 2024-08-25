@@ -2,12 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaInbox } from "react-icons/fa6";
-import { IoCalendarNumber } from "react-icons/io5";
-import { IoCalendar } from "react-icons/io5";
+import { IoCalendarNumber, IoCalendar } from "react-icons/io5";
 import { TbFilters } from "react-icons/tb";
 import { GoPlus } from "react-icons/go";
-import { FaAngleDown } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa6";
+import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import axios from "axios";
@@ -15,19 +13,55 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout as Authlogout } from "@/store/userSlice";
 import Avatar from "./Avatar";
+import { initializeSocket } from "@/socket.js";
+import { setteam } from "@/store/teamSlice";
+import Teamcomponent from "./teamcomponent";
 
 function Sidebar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const isActive = (name) => pathname.startsWith(name) && pathname.endsWith(name);
+  const [socket, setSocket] = useState(null);
+
+  const isActive = (name) =>
+    pathname.startsWith(name) && pathname.endsWith(name);
   const username = useSelector((state) => state.user.username);
   const projects = useSelector((state) => state.user.projects);
+  const [ismyprojectsvisible, setprojectvisible] = useState(true);
+  const [ismyteamvisible, setmyteamvisible] = useState(true);
+  const userId = useSelector((state) => state.user._id);
+  const allteams = useSelector((state) => state.team.teams);
   
-  const [ismyprojectsvisible,setprojectvisible]=useState(true);
-  const [ismyteamvisible,setmyteamvisible]=useState(true);
 
+  // useEffect(() => {
+  //   if (userId) {
+  //     const newSocket = initializeSocket(userId);
+  //     setSocket(newSocket);
 
+  //     // Uncomment this to handle the "newTeam" event
+  //     newSocket.on("newTeam", (data) => {
+  //       console.log("New team received:", data.team);
+  //       dispatch(addTeam(data.team));
+  //     });
+
+  //     return () => {
+  //       // Uncomment this to clean up the "newTeam" event listener
+  //       newSocket.off("newTeam");
+  //     };
+  //   }
+  // }, [userId, dispatch]);
+
+  const getuserteams = async () => {
+    try {
+      const response = await axios.get("/api/users/getuserteams");
+      if (response.data.success) {
+        
+        dispatch(setteam(response.data.data.teams));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getuser = async () => {
     try {
@@ -39,6 +73,7 @@ function Sidebar() {
       console.log(error);
     }
   };
+
   const logout = async () => {
     try {
       const response = await axios.get("/api/users/logout");
@@ -50,9 +85,13 @@ function Sidebar() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getuser();
   }, []);
+  useEffect(()=>{
+    getuserteams();
+  },[])
 
   return (
     <div className="w-full h-full overflow-y-auto bg-white">
@@ -63,7 +102,8 @@ function Sidebar() {
         </Link>
         <BiLogOutCircle className="text-customRed text-xl" onClick={logout} />
       </div>
-      <nav className="w-full  border-b-2 border-black/20">
+
+      <nav className="w-full border-b-2 border-black/20">
         <Link
           href="/dashboard/inbox"
           className={
@@ -109,6 +149,7 @@ function Sidebar() {
           <div className="ml-2 font-semibold">Filters</div>
         </Link>
       </nav>
+
       <div className="py-3">
         <div className="flex pb-2 items-center px-6 justify-between">
           <div className="flex items-center">
@@ -124,19 +165,26 @@ function Sidebar() {
                 router.push("/dashboard/Addproject");
               }}
             />
-            {
-              ismyprojectsvisible&&(<FaAngleDown className="text-xl text-black/75 hover:text-black" onClick={()=>{ setprojectvisible(false)}}/>)
-            }
-             {
-              !ismyprojectsvisible&&(<FaAngleRight className="text-xl text-black/75 hover:text-black" onClick={()=>{ setprojectvisible(true)}}/>)
-            }
-            
-            
+            {ismyprojectsvisible ? (
+              <FaAngleDown
+                className="text-xl text-black/75 hover:text-black"
+                onClick={() => {
+                  setprojectvisible(false);
+                }}
+              />
+            ) : (
+              <FaAngleRight
+                className="text-xl text-black/75 hover:text-black"
+                onClick={() => {
+                  setprojectvisible(true);
+                }}
+              />
+            )}
           </div>
         </div>
-        {
-          ismyprojectsvisible&&(
-            <nav className="">
+
+        {ismyprojectsvisible && (
+          <nav className="">
             {projects?.map((project) => (
               <div
                 key={project._id}
@@ -154,10 +202,9 @@ function Sidebar() {
               </div>
             ))}
           </nav>
-          )
-        }
-       
+        )}
       </div>
+
       <div className="py-3">
         <div className="flex pb-2 items-center px-6 justify-between">
           <div className="flex items-center">
@@ -173,39 +220,40 @@ function Sidebar() {
                 router.push("/dashboard/Addteam");
               }}
             />
-            {
-              ismyteamvisible&&(<FaAngleDown className="text-xl text-black/75 hover:text-black" onClick={()=>{ setmyteamvisible(false)}}/>)
-            }
-             {
-              !ismyteamvisible&&(<FaAngleRight className="text-xl text-black/75 hover:text-black" onClick={()=>{ setmyteamvisible(true)}}/>)
-            }
-            
-            
+            {ismyteamvisible ? (
+              <FaAngleDown
+                className="text-xl text-black/75 hover:text-black"
+                onClick={() => {
+                  setmyteamvisible(false);
+                }}
+              />
+            ) : (
+              <FaAngleRight
+                className="text-xl text-black/75 hover:text-black"
+                onClick={() => {
+                  setmyteamvisible(true);
+                }}
+              />
+            )}
           </div>
         </div>
-        {/* {
-          ismyteamvisible&&(
-            <nav className="">
-            {projects?.map((project) => (
-              <div
-                key={project._id}
-                className={
-                  isActive(`/dashboard/${project._id}`)
-                    ? "flex px-7 py-1 text-black bg-cyan-200 text-2xl gap-2 items-center  cursor-pointer"
-                    : "flex px-7 py-1 text-black/50 hover:text-black hover:bg-slate-300 text-2xl gap-2 items-center  cursor-pointer"
-                }
-                onClick={() => router.push(`/dashboard/${project._id}`)}
-              >
-                #{" "}
-                <span className="text-lg whitespace-nowrap overflow-x-hidden">
-                  {project.name}
-                </span>
-              </div>
-            ))}
+
+        {ismyteamvisible && (
+          <nav className="">
+            {allteams.length !== 0 ? (
+              allteams.map((team) => (
+                <Teamcomponent
+                  key={team._id}
+                 
+                  team={team}
+                  
+                />
+              ))
+            ) : (
+              <div className="text-center py-2">No teams found.</div>
+            )}
           </nav>
-          )
-        } */}
-       
+        )} 
       </div>
     </div>
   );

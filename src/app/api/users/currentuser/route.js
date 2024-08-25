@@ -10,6 +10,7 @@ export async function GET(req) {
   await dbConnect();
 
   try {
+    
     const id = getDataFromToken(req);
 
  

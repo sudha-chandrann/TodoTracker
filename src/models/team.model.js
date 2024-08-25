@@ -15,6 +15,11 @@ const TeamSchema=new Schema({
             type: Schema.Types.ObjectId,
             ref: 'ClientProject'
         }
-    ]
+    ],
+    admin:{
+        type: Schema.Types.ObjectId,
+        ref:'Client'
+    }
 },{timestamps:true});
-export const Team=mongoose.model("Team",TeamSchema);
+export const Team = mongoose.models.Team || mongoose.model('Team', TeamSchema);
+

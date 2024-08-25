@@ -11,6 +11,9 @@ const teamSlice = createSlice({
   initialState,
   reducers: {
     // Add a new team
+    setteam:(state,action)=>{
+      state.teams=action.payload;
+    },
     addTeam: (state, action) => {
       state.teams.push(action.payload);
     },
@@ -50,7 +53,9 @@ const teamSlice = createSlice({
 });
 
 // Export actions for use in components
-export const { addTeam, removeTeam ,addProjectToTeam,addMemberToTeam,removeProjectFromTeam,removeMemberFromTeam} = teamSlice.actions;
-
+export const { setteam,addTeam, removeTeam ,addProjectToTeam,addMemberToTeam,removeProjectFromTeam,removeMemberFromTeam} = teamSlice.actions;
+export const selectTeamById = (state, teamId) => {
+  return state.team.teams.find(team => team._id === teamId);
+};
 // Export reducer to be used in the store
 export default teamSlice.reducer;
