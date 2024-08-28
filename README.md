@@ -1,6 +1,6 @@
 <h1>TodoTracker<h1>
 
-TodoTracker is a collaborative project management tool designed to help teams and individuals manage their tasks efficiently. With TodoTracker, teams can create projects, assign tasks, set deadlines, prioritize work, and communicate seamlessly. Users can also manage personal projects for individual use.
+<h5>TodoTracker is a collaborative project management tool designed to help teams and individuals manage their tasks efficiently. With TodoTracker, teams can create projects, assign tasks, set deadlines, prioritize work, and communicate seamlessly. Users can also manage personal projects for individual use.</h5>
 
 <h3>Features</h3></br>
 
