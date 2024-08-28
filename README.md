@@ -1,6 +1,6 @@
 <h1>TodoTracker<h1>
 
-TodoTracker is a collaborative project management tool designed to help teams and individuals manage their tasks efficiently. With TodoTracker, teams can create projects, assign tasks, set deadlines, prioritize work, and communicate seamlessly. Users can also manage personal projects for individual use.
+<h5>TodoTracker is a collaborative project management tool designed to help teams and individuals manage their tasks efficiently. With TodoTracker, teams can create projects, assign tasks, set deadlines, prioritize work, and communicate seamlessly. Users can also manage personal projects for individual use.</h5>
 
 <h3>Features</h3></br>
 
@@ -65,4 +65,8 @@ Personal Use: Users can manage their personal projects separately from team proj
 Frontend: React.js, Tailwind CSS</br>
 Backend: Node.js, Express.js, MongoDB</br>
 Real-time Communication: Socket.IO</br>
+<<<<<<< HEAD
 Authentication: JWT (JSON Web Token)</br>
+=======
+Authentication: JWT (JSON Web Token)</br>
+>>>>>>> ae4667df13dc351c28989ced96818c033754a154
