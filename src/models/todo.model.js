@@ -37,7 +37,7 @@ const TodoSchema= new Schema({
             type:Schema.Types.ObjectId,
             ref:"Comment"
         }
-    ]
+    ],
 
 },{timestamps:true})
 export const Todo = mongoose.models.Todo || mongoose.model('Todo', TodoSchema);

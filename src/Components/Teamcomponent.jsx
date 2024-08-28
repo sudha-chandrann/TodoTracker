@@ -8,7 +8,7 @@ function Teamcomponent({team}) {
   return (
     <div className='w-ful' >
         <div className='w-full flex items-center justify-between pl-5 text-black/70 text-lg hover:bg-black/10'>
-        <div className='flex items-center gap-1' onClick={()=>{
+        <div className='flex items-center gap-1 cursor-pointer' onClick={()=>{
            
             router.push(`/dashboard/team/${team._id}`)
             }}> <span className='text-lg text-black'>#</span> {team.name}</div>

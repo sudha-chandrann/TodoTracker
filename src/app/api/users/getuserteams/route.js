@@ -17,10 +17,10 @@ export async function GET(req) {
               path: 'members',
               select: 'username _id', // Select username and ID for members
             },
-            // {
-            //   path: 'projects',
-            //   select: 'name _id', // Select name and ID for projects
-            // },
+            {
+              path: 'projects',
+              select: 'name _id createdby', // Select name and ID for projects
+            },
           ],
         });
 

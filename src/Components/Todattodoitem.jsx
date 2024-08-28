@@ -13,40 +13,27 @@ function TodayTodoItem({
   task,
   priority,
   todoid,
-  projectid,
+  project,
   projectname,
   handletoggletodo,
-  handledeletetodo,
+  
 }) {
     
     const [isdeleting,setisdeleting]=useState(false);
     const router=useRouter();
     const gototodo=()=>{
-      router.push(`/dashboard/${projectid}/${todoid}`)
+      if(project?.team){
+        router.push(`/dashboard/team/${project.team}/${project._id}/${todoid}`)
+      }
+      else{
+        router.push(`/dashboard/${project._id}/${todoid}`)
+      }
+      
     }
 
-
-
-    const deletetodo=async()=>{
-        try{
-         
-         const response=await axios.delete(`/api/projects/${projectid}/${todoid}`);
-         if(response.data.success){
-          toast.success(response.data.message)
-          handledeletetodo(response.data.data.id);
-         }
-         else{
-          toast.error(response.data.message)
-         }
-         
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
     const tooglecomplete=async()=>{
         try{
-          const response=await axios.put(`/api/projects/${projectid}/${todoid}`,{
+          const response=await axios.put(`/api/projects/${project._id}/${todoid}`,{
             iscompleted:!iscompleted
           })
           if(response.data.success){
@@ -131,13 +118,6 @@ function TodayTodoItem({
             }}
           />
 
-          <MdOutlineDelete
-            className="text-2xl text-black/50 hover:text-black"
-            title="Delete the Todo"
-            onClick={() => {
-              setisdeleting(true);
-            }}
-          />
         </div>
       </div>
       <div className="flex items-center justify-between  px-4">

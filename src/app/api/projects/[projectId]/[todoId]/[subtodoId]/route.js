@@ -7,6 +7,7 @@ import { Todo } from "@/models/todo.model";
 import { Subtodo } from "@/models/subtodo.model";
 import { Comment } from "@/models/comment.model";
 import { ClientProject } from "@/models/project.model";
+import { FaUserInjured } from "react-icons/fa6";
 
 
 
@@ -162,6 +163,7 @@ export async function GET(req,context) {
                     {
                       $project: {
                         username: 1,
+                        _id:1,
                       },
                     },
                   ],
@@ -172,6 +174,9 @@ export async function GET(req,context) {
                     user: {
                       $arrayElemAt: ["$commentedby.username", 0],
                     },  
+                    userid: {
+                      $arrayElemAt: ["$commentedby._id", 0],
+                    },  
                 }
               },
               {
@@ -179,6 +184,7 @@ export async function GET(req,context) {
                   _id: 1,
                   comment: 1,
                   user: 1,
+                  userid:1
                 },
               },
             ],
@@ -191,6 +197,24 @@ export async function GET(req,context) {
             foreignField: "_id",
             as: "todo",
           },
+        },
+        {
+          $lookup:{
+            from: "clients",
+            localField: "assignedto",
+            foreignField: "_id",
+            as:'assignedto',
+            pipeline:[
+              {
+                $project:{
+                  username:1,
+                  email:1,
+                  _id:1,
+                }
+              }
+            ]
+          }
+  
         },
         {
           $addFields: {
@@ -208,7 +232,8 @@ export async function GET(req,context) {
             deadline:1,
             priority:1,
             todo:1,
-            iscompleted:1
+            iscompleted:1,
+            assignedto:1,
           }
         }
     

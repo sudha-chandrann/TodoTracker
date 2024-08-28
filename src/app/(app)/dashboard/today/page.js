@@ -54,10 +54,6 @@ function page() {
   useEffect(()=>{
     setrequiredDate();
   },[date])
-
-  const handleTodoDelete = (deletedTodoId) => {
-    settodaytodos((prevTodos) => prevTodos.filter(todo => todo._id !== deletedTodoId));
-  };
   const handdletodotoggle = (todoId,iscomplete) => {
     settodaytodos(prevTodos =>
       prevTodos.map(todo =>
@@ -262,8 +258,7 @@ function page() {
             todoid={todo._id}
             priority={todo.priority}
             projectname={todo.projectname}
-            projectid={todo.project}
-            handledeletetodo={handleTodoDelete} 
+            project={todo.project[0]}
             handletoggletodo={handdletodotoggle}
           />
         ))

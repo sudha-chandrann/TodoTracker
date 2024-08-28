@@ -144,6 +144,9 @@ function Page() {
                   user={user}
                   toggleteammemebrs={toggleteammembers}
                   isInTeam={isInTeam}
+                  bg={'bg-slate-100'}
+                  bg2={'bg-slate-200'}
+                  className={'text-black hover:bg-slate-300'}
                 />
               ))
             ) : (

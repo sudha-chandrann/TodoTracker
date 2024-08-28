@@ -50,6 +50,7 @@ export async function GET(req, context) {
                   {
                     $project: {
                       username: 1,
+                      _id:1
                     },
                   },
                 ],
@@ -60,6 +61,9 @@ export async function GET(req, context) {
                   user: {
                     $arrayElemAt: ["$commentedby.username", 0],
                   },  
+                  userid:{
+                    $arrayElemAt: ["$commentedby._id", 0],
+                  }
               }
             },
             {
@@ -67,6 +71,7 @@ export async function GET(req, context) {
                 _id: 1,
                 comment: 1,
                 user: 1,
+                userid:1,
               },
             },
           ],
@@ -108,6 +113,24 @@ export async function GET(req, context) {
         },
       },
       {
+        $lookup:{
+          from: "clients",
+          localField: "assignedto",
+          foreignField: "_id",
+          as:'assignedto',
+          pipeline:[
+            {
+              $project:{
+                username:1,
+                email:1,
+                _id:1,
+              }
+            }
+          ]
+        }
+
+      },
+      {
         $addFields: {
           project: {
             $arrayElemAt: ["$project.name", 0],
@@ -126,6 +149,7 @@ export async function GET(req, context) {
           priority: 1,
           iscompleted: 1,
           project: 1,
+          assignedto:1
         },
       },
     ]);

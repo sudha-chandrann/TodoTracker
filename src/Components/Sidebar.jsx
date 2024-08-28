@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout as Authlogout } from "@/store/userSlice";
 import Avatar from "./Avatar";
 import { initializeSocket } from "@/socket.js";
-import { setteam } from "@/store/teamSlice";
+import { setteam,addTeam, removeTeam } from "@/store/teamSlice";
 import Teamcomponent from "./teamcomponent";
 
 function Sidebar() {
@@ -32,24 +32,41 @@ function Sidebar() {
   const userId = useSelector((state) => state.user._id);
   const allteams = useSelector((state) => state.team.teams);
   
+  useEffect(() => {
+    if (userId) {
+      const newSocket = initializeSocket(userId);
+      setSocket(newSocket);
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     const newSocket = initializeSocket(userId);
-  //     setSocket(newSocket);
+      // Uncomment this to handle the "newTeam" event
+      newSocket.on("newTeam", (data) => {
+        dispatch(addTeam(data.team));
+      });
 
-  //     // Uncomment this to handle the "newTeam" event
-  //     newSocket.on("newTeam", (data) => {
-  //       console.log("New team received:", data.team);
-  //       dispatch(addTeam(data.team));
-  //     });
+      newSocket.on("removedFromTeam",(data)=>{
+        if(data.success){
+          dispatch(removeTeam(data.teamId))
+        }
+      })
+      // newSocket.on("teamRemoved", (data) => {
+      //   if (data.success) {
+      //     dispatch(removeTeam( data.teamId ));
+      //     router.push('/dashboard')
+      //   }
+      // });
 
-  //     return () => {
-  //       // Uncomment this to clean up the "newTeam" event listener
-  //       newSocket.off("newTeam");
-  //     };
-  //   }
-  // }, [userId, dispatch]);
+      newSocket.on("teamdetails", (data) => {
+        dispatch(addTeam(data.team));
+      });
+
+      return () => {
+        // Uncomment this to clean up the "newTeam" event listener
+        newSocket.off("newTeam");
+        newSocket.off("removedFromTeam");
+        newSocket.off("teamRemoved");
+        newSocket.off("teamdetails");
+      };
+    }
+  }, [userId, dispatch]);
 
   const getuserteams = async () => {
     try {

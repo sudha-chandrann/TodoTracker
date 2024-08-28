@@ -30,12 +30,21 @@ export async function GET(req) {
                 from:"clientprojects",
                 localField:"project",
                 foreignField:"_id",
-                as:'projects'
+                as:'project',
+                pipeline:[
+                    {
+                        $project:{
+                          _id:1,
+                          team:1,
+                          name:1,
+                        }
+                    }
+                ]
             }
         },{
             $addFields:{
                 projectname:{
-                    $arrayElemAt: ["$projects.name", 0],
+                    $arrayElemAt: ["$project.name", 0],
                 },
             }
 

@@ -36,11 +36,12 @@ const teamSlice = createSlice({
         }
       },
       addMemberToTeam: (state, action) => {
-        const { teamId, member } = action.payload;
+        const { teamId, members } = action.payload; // Assume members is an array of member objects
         const team = state.teams.find(team => team._id === teamId);
         if (team) {
-          team.members.push(member);
+            team.members.push(...members); // Spread the array to push multiple members
         }
+    
       },
       removeMemberFromTeam: (state, action) => {
         const { teamId, memberId } = action.payload;

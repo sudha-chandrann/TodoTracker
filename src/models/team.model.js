@@ -19,7 +19,8 @@ const TeamSchema=new Schema({
     admin:{
         type: Schema.Types.ObjectId,
         ref:'Client'
-    }
+    },
+
 },{timestamps:true});
 export const Team = mongoose.models.Team || mongoose.model('Team', TeamSchema);
 

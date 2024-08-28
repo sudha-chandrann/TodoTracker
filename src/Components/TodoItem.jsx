@@ -48,6 +48,7 @@ function TodoItem({
         }
     }
     const tooglecomplete=async()=>{
+      
         try{
           const response=await axios.put(`/api/projects/${projectid}/${todoid}`,{
             iscompleted:!iscompleted
@@ -100,7 +101,7 @@ function TodoItem({
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center gap-3  w-[70%] ">
           <div
-            className="h-5 w-5 rounded-full bg-white flex justify-center items-center"
+            className="h-5 w-5 rounded-full bg-white flex justify-center items-center cursor-pointer"
             onClick={() => {
               tooglecomplete();
             }}

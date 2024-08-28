@@ -28,7 +28,6 @@ function page() {
             const response=await axios.get(`/api/projects/${inboxid}`);
             if(response.data.success){
                 const data=response.data.data.project
-               
                 setinboxtodos(data.todos);
             }
         }
