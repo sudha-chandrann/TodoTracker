@@ -422,14 +422,16 @@ function page({ params }) {
               {team.members ? (
                 team.members.map((member) => (
                     <div className="flex justify-between items-center py-1 px-2  bg-black/10 hover:bg-black/15 w-full" key={member._id}>
-                        <div className="text-black">{member.username}</div>
+                        <div className="text-black">
+                          {member._id===userid?"You":member.username}
+                          </div>
                          {
                             isAdmin &&(member._id !==userId) &&(
                                 <IoRemoveCircleOutline className="text-black/40 hover:text-black" title="remove Member" onClick={()=>{deleteteammember(member._id)}}/>
                             )
                          }
                           {
-                             (member._id ===userId) &&(
+                             (member._id===teambyid.admin) &&(
                               <div className="py-1 px-2 bg-cyan-300 rounded-full text-black">
                                      Admin
                               </div>
