@@ -4,11 +4,11 @@ TodoTracker is a collaborative project management tool designed to help teams an
 
 Features
 
-Team Collaboration:
-    ->Create and manage projects within a team.
-    ->Only the team leader can assign tasks to team members.
-    ->Set deadlines and prioritize tasks for better project management.
-    ->Team members can comment and communicate on each task and subtask.
+Team Collaboration:<br/>
+    ->Create and manage projects within a team.<br/>
+    ->Only the team leader can assign tasks to team members.<br/>
+    ->Set deadlines and prioritize tasks for better project management.<br/>
+    ->Team members can comment and communicate on each task and subtask.<br/>
     
 Task Management:
     ->Assigned users can create subtasks to break down their work.
